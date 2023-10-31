@@ -20,9 +20,9 @@ class PageController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function landingPage(): TemplateResponse {
+	public function index(): TemplateResponse {
 		Util::addScript(Application::APP_ID, 'nextopn-main');
-		return new TemplateResponse(Application::APP_ID, 'landingpage');
+
+		return new TemplateResponse(Application::APP_ID, 'main');
 	}
-	
 }
