@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <!--
+    SPDX-FileCopyrightText: Jharby <jsara030@fiu.edu>
+    SPDX-License-Identifier: CC0-1.0
+    -->
+    <id>nextopn</id>
+    <name>Next O P N</name>
+    <summary>Opnsense api controller in nextcloud</summary>
+    <description><![CDATA[Opnsense api controller in nextcloud]]></description>
+    <version>0.0.1</version>
+    <licence>agpl</licence>
+    <author mail="jsara030@fiu.edu" >Jharby</author>
+    <namespace>NextOPN</namespace>
+    <category>security</category>
+    <bugs>http://test.com</bugs>
+    <dependencies>
+        <nextcloud min-version="27" max-version="27"/>
+    </dependencies>
+    <navigations>
+        <navigation>
+            <name>Next O P N</name>
+            <route>nextopn.page.index</route>
+        </navigation>
+    </navigations>
+</info>
