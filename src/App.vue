@@ -1,9 +1,10 @@
 <template>
     <div id="content" class="app-nextopn">
         <AppNavigation>
-            <Firmware />
         </AppNavigation>
         <AppContent>
+			<LandingPage/>
+			<Firmware/>
             <!-- Possibly add other components or text related to your firewall here -->
         </AppContent>
     </div>
@@ -16,12 +17,11 @@ import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
 import '@nextcloud/dialogs/styles/toast.scss'
 import axios from '@nextcloud/axios'
 import Firmware from './components/Firmware.vue'
+import LandingPage from './components/LandingPage.vue'
 
 export default {
 	name: 'App',
 	components: {
-		AppContent,
-		AppNavigation,
 		Firmware,
 	},
 	data() {
@@ -29,7 +29,7 @@ export default {
 			loading: true,
 		}
 	},
-	// You might have other methods or mounted functions related to your firewall
+	    // You might have other methods or mounted functions related to your firewall
 	methods: {
 		// If there are methods related to the firewall, retain them
 	},
