@@ -23,9 +23,8 @@ class MenutreeController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      */
-
      public function getStatus() {
-        $responseData = $this->makeApiCall('https://35.199.16.187/api/core/menu/tree');
+        $responseData = $this->makeApiCall('https://35.199.16.187/api/core/menu/search');
         if ($responseData['status'] === 'ok') {
             return new DataResponse([
                     'menuID' => array_map(function($item) {
@@ -33,11 +32,6 @@ class MenutreeController extends Controller {
                     }, $responseData),
                     'menuOrder' => array_map(function($item) {
                         return $item['Order'];
-                    }, $responseData),
-                    'ChildrenId' => array_map(function($item) {
-                        return array_map(function($child) {
-                            return $child['Id'];
-                        }, $item['Children']);
                     }, $responseData)
                     //More values will be avaible at request of the frontend developer.
             ]);
@@ -72,7 +66,6 @@ class MenutreeController extends Controller {
         
         return json_decode($response, true);
     }
-    
     
 
 }

@@ -24,23 +24,10 @@ class MenutreeController extends Controller {
      * @NoCSRFRequired
      */
 
-     public function getStatus() {
-        $responseData = $this->makeApiCall('https://35.199.16.187/api/core/menu/tree');
+     public function getStatus(string $id,string $password) {
+        $responseData = $this->logon('https://35.199.16.187/api/captiveportal/session/connect',$id,$password);
         if ($responseData['status'] === 'ok') {
-            return new DataResponse([
-                    'menuID' => array_map(function($item) {
-                        return $item['Id'];
-                    }, $responseData),
-                    'menuOrder' => array_map(function($item) {
-                        return $item['Order'];
-                    }, $responseData),
-                    'ChildrenId' => array_map(function($item) {
-                        return array_map(function($child) {
-                            return $child['Id'];
-                        }, $item['Children']);
-                    }, $responseData)
-                    //More values will be avaible at request of the frontend developer.
-            ]);
+            return new DataResponse(['success' => 'Login Sucessfull', 200])
         } else if (isset($responseData['status_msg'])) {
             return new DataResponse(['errorMessage' => $responseData['status_msg']]);   
         }
@@ -48,19 +35,26 @@ class MenutreeController extends Controller {
      }
 
 
-     private function makeApiCall($url) {
+     private function logon($url,string $userId,string $userPassword) {
         $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
+        $params = [
+            'zoneid' => 0,
+            'userId' => $userId,
+            'userPassword' => $userPassword,
+        ];
         // Disable SSL Verification (for debugging purposes)
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-    
+
         // Set authentication headers for Basic Authentication
         $headers = [
             'Authorization: Basic ' . base64_encode($this->apiKey . ':' . $this->apiSecret)
         ];
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     
         $response = curl_exec($ch);
         
