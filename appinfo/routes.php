@@ -22,5 +22,7 @@ return [
         ['name' => 'firmware#getStatus', 'url' => '/api/firmware/status', 'verb' => 'GET'],
         ['name' => 'firmware#addAlias', 'url' => '/api/firewall/alias/addItem', 'verb' => 'POST'],
         ['name' => 'menutree#getStatus', 'url' => '/api/menutree', 'verb' => 'GET'],
+        ['name' => 'menutree#getStatus', 'url' => '/api/menutree', 'verb' => 'GET'],
+        ['name' => 'menusearch#getStatus', 'url' => '/api/menusearch', 'verb' => 'GET'],
     ],
 ];

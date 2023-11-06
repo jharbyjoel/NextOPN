@@ -25,7 +25,7 @@ class MenutreeController extends Controller {
      */
 
      public function getStatus() {
-        $responseData = $this->makeApiCall('https://35.199.16.187/api/core/menu/search');
+        $responseData = $this->makeApiCall('https://35.199.16.187/api/core/menu/tree');
         if ($responseData['status'] === 'ok') {
             return new DataResponse([
                     'menuID' => array_map(function($item) {
@@ -39,6 +39,7 @@ class MenutreeController extends Controller {
                             return $child['Id'];
                         }, $item['Children']);
                     }, $responseData)
+                    //More values will be avaible at request of the frontend developer.
             ]);
         } else if (isset($responseData['status_msg'])) {
             return new DataResponse(['errorMessage' => $responseData['status_msg']]);   
