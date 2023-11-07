@@ -26,7 +26,7 @@ class FirmwareController extends Controller {
 
      // Get status Api Endpoint
      public function getStatus() {
-        $responseData = $this->makeApiCall('https://35.199.16.187/api/core/firmware/status');
+        $responseData = $this->makeApiCall('https://34.145.217.103/api/core/firmware/status');
         if ($responseData['status'] === 'ok') {
             return new DataResponse([
                 'upgradeAvailable' => true,
@@ -48,37 +48,61 @@ class FirmwareController extends Controller {
      */
 
      // Post Alias API endpoint
-     public function addAlias($aliasData) {
-        // Payload Constructor
+     public function addAlias() {
+        // Get the JSON POST data
+        $json = file_get_contents('php://input');
+        $aliasData = json_decode($json, true); // decode to associative array
+    
+        // Now use $aliasData to construct your payload
         $payload = [
             'alias' => [
-                'enabled' => $aliasData['enabled'],
-                'name' => $aliasData['name'],
-                'type' => $aliasData['type'],
-                'proto' => $aliasData['proto'],
-                'categories' => $aliasData['categories'],
-                'updatefreq' => $aliasData['updatefreq'],
-                'content' => $aliasData['content'],
+                'enabled' => $aliasData['alias']['enabled'],
+                'name' => $aliasData['alias']['name'],
+                'type' => $aliasData['alias']['type'],
+                'proto' => $aliasData['alias']['proto'],
+                'categories' => $aliasData['alias']['categories'],
+                'updatefreq' => $aliasData['alias']['updatefreq'],
+                'content' => $aliasData['alias']['content'],
             ],
             'authgroup_content' => $aliasData['authgroup_content'],
-            'network_content' => $aliasData['nextwork_content'],
+            'network_content' => $aliasData['network_content'],
         ];
 
-        $url = 'https://35.199.16.187/api/firewall/alias/addItem/';
+        $url = 'https://34.145.217.103/api/firewall/alias/addItem/';
 
         try {
-
             $responseData = $this->makePostApiCall($url, $payload);
+            
+            // Check the 'result' field directly for 'success' or 'failed' status
+            if (isset($responseData['result'])) {
+                if ($responseData['result'] === 'failed') {
 
-            if(isset($responseData['status']) && $responseData['status'] === 'ok'){
+                    $errorMessage = isset($responseData['validations']) ? 
+                    "Alias not added. " . implode(' ', $responseData['validations']) :
+                    "Alias not added due to an unknown error.";
 
-                return new DataResponse([
-                    'success' => true,
-                    'message' => 'Alias added successfully.',
-                    'data' => $responseData
-                ]);
+
+                    // The operation failed
+                    return new DataResponse([
+                        'success' => false,
+                        'message' => $errorMessage
+                    ]);
+                    
+                } elseif ($responseData['result'] === 'success') {
+                    // The operation was successful
+                    return new DataResponse([
+                        'success' => true,
+                        'message' => 'Alias added successfully.'
+                    ]);
+                } else {
+                    // If result is neither 'failed' nor 'success', handle as error
+                    return new DataResponse([
+                        'success' => false,
+                        'message' => 'Unexpected result status.'
+                    ]);
+                }
             } else {
-                // Handle case where API response fails
+                // If no 'result' field is present, handle as error
                 return new DataResponse([
                     'success' => false,
                     'message' => isset($responseData['status_msg']) ? $responseData['status_msg'] : 'Unknown error occurred.'
@@ -93,8 +117,7 @@ class FirmwareController extends Controller {
         }
 
      }
-
-
+     // Get API method
      private function makeApiCall($url) {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -133,7 +156,7 @@ class FirmwareController extends Controller {
     // Set the content type to application/json for JSON body
     $headers = [
         'Authorization: Basic ' . base64_encode($this->apiKey . ':' . $this->apiSecret),
-        'Content-Type: application/json',
+        'Content-Type: application/json; charset=UTF-8',
     ];
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
@@ -151,7 +174,10 @@ class FirmwareController extends Controller {
 
     return json_decode($response, true);
     }
-    
+
+
+
+
     
 
 }

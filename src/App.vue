@@ -5,6 +5,7 @@
         <AppContent>
 			<LandingPage/>
 			<Firmware/>
+			<getStatus/>
             <!-- Possibly add other components or text related to your firewall here -->
         </AppContent>
     </div>
@@ -18,11 +19,13 @@ import '@nextcloud/dialogs/styles/toast.scss'
 import axios from '@nextcloud/axios'
 import Firmware from './components/Firmware.vue'
 import LandingPage from './components/LandingPage.vue'
+import getStatus from './components/getStatus.vue'
 
 export default {
 	name: 'App',
 	components: {
 		Firmware,
+		getStatus,
 	},
 	data() {
 		return {
