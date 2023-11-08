@@ -147,9 +147,9 @@ class FirmwareController extends Controller {
      * @NoCSRFRequired
      * @param array $categoryData The data for the new category from the client side.
      * @return DataResponse
+     * @author Diego Munoz
      */
      // Post Categories API endpoint
-     // @author: Diego Munoz
     public function addCategories() {
 
         $json = file_get_contents('php://input');
@@ -211,7 +211,15 @@ class FirmwareController extends Controller {
             ], 500);
         }
     }
-     // Get API method
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     */
+    // Get API method 69
+     // Get Categories API method
+     public function getCategories() {
+
+     }
      private function makeApiCall($url) {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
