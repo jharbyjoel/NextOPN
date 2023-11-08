@@ -33,10 +33,8 @@ class MenutreeController extends Controller {
         }
         return new Dataresponse(['error' => 'Error making OPNsense API call'], 500);
      }
-
-
      private function logon($url,string $userId,string $userPassword) {
-        $ch = curl_init($url);
+        $ch = curl_init($url); 
         $params = [
             'zoneid' => 0,
             'userId' => $userId,
