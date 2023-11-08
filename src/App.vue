@@ -57,5 +57,3 @@ export default {
   overflow: auto; /* Add scroll to the AppContent */
 }
 </style>
-
-
