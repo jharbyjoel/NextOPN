@@ -40,6 +40,31 @@ class FirmwareController extends Controller {
         return new Dataresponse(['error' => 'Error making OPNsense API call'], 500);
      }
 
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     */
+
+     public function getAlias() {
+        $responseData = $this->makeApiCall('https://34.145.217.103/api/firewall/alias/searchItem');
+            // if status message is ok and there is a rows set
+            if (isset($responseData['rows'])) {
+                return new DataResponse($responseData['rows']);
+            } else {
+                // check to see if the row is not set and print the error message that follwos
+                if (isset($responseData['status']) && $responseData['status'] !== 'ok') {
+                    $errorDetails = isset($responseData['status_msg']);
+                } else {
+                    $errorDetails = 'Failed to retrieve aliases';
+                }
+                // This handles a case where 'rows' does not appear and gives error message to the user 
+                return new DataResponse([
+                    'error' => 'Failed to retrieve aliases',
+                    'details' => $responseData
+                ], 500); //HTTP status code 500 for internal server error
+            }
+     }
+
      /**
      * @NoAdminRequired
      * @NoCSRFRequired
@@ -56,7 +81,7 @@ class FirmwareController extends Controller {
         // Now use $aliasData to construct your payload
         $payload = [
             'alias' => [
-                'enabled' => $aliasData['alias']['enabled'],
+                'enabled' => $aliasData['alias']['enabled'], // multi-dimensional array to retrieve the field from the front end
                 'name' => $aliasData['alias']['name'],
                 'type' => $aliasData['alias']['type'],
                 'proto' => $aliasData['alias']['proto'],
@@ -174,10 +199,4 @@ class FirmwareController extends Controller {
 
     return json_decode($response, true);
     }
-
-
-
-
-    
-
 }
