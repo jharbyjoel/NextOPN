@@ -3,11 +3,8 @@
         <AppNavigation>
         </AppNavigation>
         <AppContent>
-			<LandingPage/>
-			<Firmware/>
-			<Categories/>
-			<getStatus/>
-            <!-- Possibly add other components or text related to your firewall here -->
+			
+        
         </AppContent>
     </div>
 </template>
@@ -21,13 +18,12 @@ import axios from '@nextcloud/axios'
 import Firmware from './components/Firmware.vue'
 import Categories from './components/Categories.vue'
 import LandingPage from './components/LandingPage.vue'
-import getStatus from './components/getStatus.vue'
+import getAlias from './components/getAlias.vue'
 
 export default {
 	name: 'App',
 	components: {
 		Firmware,
-		Categories,
 		getStatus,
 	},
 	data() {
@@ -43,13 +39,23 @@ export default {
 </script>
 
 <style scoped>
-	#app-content > div {
-		width: 100%;
-		height: 100%;
-		padding: 20px;
-		display: flex;
-		flex-direction: column;
-		flex-grow: 1;
-	}
+#content {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Adjust if necessary to fit your layout */
+}
+
+#content > * {
+  overflow: auto;
+  padding: 20px;
+  flex-shrink: 0; /* Prevent the children from shrinking */
+}
+
+/* Specifically for the AppContent, if it's the scrollable area */
+.app-content {
+  flex-grow: 1; /* Allow AppContent to fill the space and be scrollable */
+  overflow: auto; /* Add scroll to the AppContent */
+}
 </style>
+
 
