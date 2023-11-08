@@ -211,15 +211,25 @@ class FirmwareController extends Controller {
             ], 500);
         }
     }
-    /**
-     * @NoAdminRequired
-     * @NoCSRFRequired
-     */
-    // Get API method 69
-     // Get Categories API method
-     public function getCategories() {
+    public function getCategories() {
+        $responseData = $this->makeApiCall('https://34.145.217.103/api/firewall/category/searchItem');
 
-     }
+        if(isset($responseData['rows'])) {
+            return new DataResponse($responseData['rows']);
+        } else {
+            if (isset($responseData['status']) && $responseData['status'] !== 'ok') {
+                $errorDetails = isset($responseData['status_msg']);
+            } else {
+                $errorDetails = 'Failed to retrieve aliases';
+            }
+            // This handles a case where 'rows' does not appear and gives error message to the user 
+            return new DataResponse([
+                'error' => 'Failed to retrieve aliases',
+                'details' => $responseData
+            ], 500); //HTTP status code 500 for internal server error
+        }
+        
+    }
      private function makeApiCall($url) {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -276,10 +286,4 @@ class FirmwareController extends Controller {
 
         return json_decode($response, true);
     }
-
-
-
-
-    
-
 }

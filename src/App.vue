@@ -3,8 +3,8 @@
         <AppNavigation>
         </AppNavigation>
         <AppContent>
-			
-        
+          <Firmware/>
+          <Categories/>
         </AppContent>
     </div>
 </template>
@@ -17,14 +17,14 @@ import '@nextcloud/dialogs/styles/toast.scss'
 import axios from '@nextcloud/axios'
 import Firmware from './components/Firmware.vue'
 import Categories from './components/Categories.vue'
-import LandingPage from './components/LandingPage.vue'
 import getAlias from './components/getAlias.vue'
 
 export default {
 	name: 'App',
 	components: {
 		Firmware,
-		getStatus,
+    Categories,
+		//getStatus,
 	},
 	data() {
 		return {
