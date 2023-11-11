@@ -3,8 +3,7 @@
         <AppNavigation>
         </AppNavigation>
         <AppContent>
-          <Firmware/>
-          <Categories/>
+          <getCategories/>
         </AppContent>
     </div>
 </template>
@@ -18,13 +17,12 @@ import axios from '@nextcloud/axios'
 import Firmware from './components/Firmware.vue'
 import Categories from './components/Categories.vue'
 import getAlias from './components/getAlias.vue'
+import getCategories from './components/getCategories.vue'
 
 export default {
 	name: 'App',
 	components: {
-		Firmware,
-    Categories,
-		//getStatus,
+		getCategories,
 	},
 	data() {
 		return {

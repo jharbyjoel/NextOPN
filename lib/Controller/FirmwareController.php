@@ -211,6 +211,10 @@ class FirmwareController extends Controller {
             ], 500);
         }
     }
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     */
     public function getCategories() {
         $responseData = $this->makeApiCall('https://34.145.217.103/api/firewall/category/searchItem');
 
