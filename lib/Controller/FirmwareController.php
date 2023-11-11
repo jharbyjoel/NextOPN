@@ -234,10 +234,14 @@ class FirmwareController extends Controller {
         }
         
     }
-    public function deleteCategories(string $uuid) {
-        $url = 'https://34.145.217.103/api/firewall/category/delItem/'.urlencode($uuid);
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     */
+    public function deleteCategories() {
+        $url = 'https://34.145.217.103/api/firewall/category/delItem/';
         try {
-            $responseData = $this->makePostApiCall($url);
+            $responseData = $this->makePostApiCall($url,{});
             // Check the 'result' field directly for 'success' or 'failed' status
             if(isset($responseData['result'])) {
                 if ($responseData['result'] === 'failed') {

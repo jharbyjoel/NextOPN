@@ -47,7 +47,7 @@ export default {
         deletecategory() {
             const apiUrl = 'http://nextcloud.local/index.php/apps/nextopn/api/firewall/categories/delCategories/';
             const uuid = '8c49a56a-e62f-4c4e-b211-04776ba98e03';
-            axios.post(apiUrl+uuid)
+            axios.post(apiUrl+uuid,{})
             .then(response => {
                 if(response.data.success) {
                     this.message = response.data.message;
