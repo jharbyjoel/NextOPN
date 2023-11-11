@@ -23,6 +23,7 @@ return [
         ['name' => 'firmware#getAlias', 'url' => '/api/firewall/alias/getAlias', 'verb' => 'GET'],
         ['name' => 'firmware#addAlias', 'url' => '/api/firewall/alias/addItem', 'verb' => 'POST'],
         ['name' => 'firmware#addCategories', 'url' => '/api/firewall/categories/addItem', 'verb' => 'POST'],
+        ['name' => 'firmware#deleteCategories', 'url' => '/api/firewall/categories/delCategories', 'verb' => 'POST'],
         ['name' => 'firmware#getCategories', 'url' => '/api/firewall/categories/getCategories', 'verb' => 'GET'],
         ['name' => 'menutree#getStatus', 'url' => '/api/menutree', 'verb' => 'GET'],
         ['name' => 'menutree#getStatus', 'url' => '/api/menutree', 'verb' => 'GET'],

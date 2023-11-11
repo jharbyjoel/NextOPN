@@ -234,6 +234,53 @@ class FirmwareController extends Controller {
         }
         
     }
+    public function deleteCategories(string $uuid) {
+        $url = 'https://34.145.217.103/api/firewall/category/delItem/'.urlencode($uuid);
+        try {
+            $responseData = $this->makePostApiCall($url);
+            // Check the 'result' field directly for 'success' or 'failed' status
+            if(isset($responseData['result'])) {
+                if ($responseData['result'] === 'failed') {
+
+                    $errorMessage = isset($responseData['validations']) ? 
+                    "Category not added. " . implode(' ', $responseData['validations']) :
+                    "Category not added due to an unknown error.";
+
+
+                    // The operation failed
+                    return new DataResponse([
+                        'success' => false,
+                        'message' => $errorMessage
+                    ]);
+                    
+                } elseif ($responseData['result'] === 'success') {
+                    // The operation was successful
+                    return new DataResponse([
+                        'success' => true,
+                        'message' => 'Category added successfully.'
+                    ]);
+                } else {
+                    // If result is neither 'failed' nor 'success', handle as error
+                    return new DataResponse([
+                        'success' => false,
+                        'message' => 'Unexpected result status.'
+                    ]);
+                }
+            } else {
+                // If no 'result' field is present, handle as error
+                return new DataResponse([
+                    'success' => false,
+                    'message' => isset($responseData['status_msg']) ? $responseData['status_msg'] : 'Unknown error occurred.'
+                ]);
+            }
+        } catch (\Exception $e) {
+            // Handle Exceptions thrown during the API call
+            return new DataResponse([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
      private function makeApiCall($url) {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
