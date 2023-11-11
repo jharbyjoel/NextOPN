@@ -206,6 +206,28 @@ class FirmwareController extends Controller {
             }
      }
 
+     /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     */
+
+
+     public function delGroup($uid){
+        $json = file_get_contents('php://input');
+        $delGroupData = json_decode($json, true);
+
+        $url = 'https://34.145.217.103/api/firewall/group/delItem/' . $uid; // the period appends the two strings together
+
+        $data = array(); // Since there is not data that needs to be send we can 
+
+        try {
+            $response = $this->makePostApiCall($url, $data);
+            return $response;
+        } catch (\Exception $e) {
+            throw $e;
+        }
+     }
+
          /**
      * @NoAdminRequired
      * @NoCSRFRequired
@@ -332,4 +354,6 @@ class FirmwareController extends Controller {
 
     return json_decode($response, true);
     }
+}
+
 }

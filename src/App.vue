@@ -7,6 +7,7 @@
 		<AddGroup/>
 		<Firmware/> 
 		<DeleteGroup/>
+          <getCategories/>
         </AppContent>
     </div>
 </template>
@@ -22,6 +23,7 @@ import Categories from './components/Categories.vue'
 import getAlias from './components/getAlias.vue'
 import AddGroup from './components/AddGroup.vue'
 import DeleteGroup from './components/DeleteGroup.vue'
+import getCategories from './components/getCategories.vue'
 
 export default {
 	name: 'App',
@@ -31,6 +33,7 @@ export default {
 		Firmware,
 		DeleteGroup,
 	
+		getCategories,
 	},
 	data() {
 		return {
@@ -63,5 +66,3 @@ export default {
   overflow: auto; /* Add scroll to the AppContent */
 }
 </style>
-
-
