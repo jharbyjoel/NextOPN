@@ -3,10 +3,6 @@
         <AppNavigation>
         </AppNavigation>
         <AppContent>
-		<Categories/>
-		<AddGroup/>
-		<Firmware/> 
-		<DeleteGroup/>
           <getCategories/>
         </AppContent>
     </div>
@@ -28,11 +24,6 @@ import getCategories from './components/getCategories.vue'
 export default {
 	name: 'App',
 	components: {
-		Categories,
-		AddGroup,
-		Firmware,
-		DeleteGroup,
-	
 		getCategories,
 	},
 	data() {

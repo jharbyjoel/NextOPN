@@ -6,9 +6,7 @@
                 <strong>Name:</strong>{{ category.name }}
                 <p><strong>Auto:</strong>{{ category.auto }}</p>
                 <p><strong>Color:</strong>{{ category.color }}</p>
-                <form @submit.prevent="deletecategory()">
-                <button type="submit">Delete</button>
-            </form>
+                <button @click="deletecategory(category.uuid)">Delete</button>
             </li>
             
         </ul>
@@ -16,7 +14,8 @@
     </div>
 </template>
 <script>
-import axios from "axios";
+import axios from '@nextcloud/axios';
+import { generateUrl } from '@nextcloud/router'
 
 export default {
     data() {
@@ -29,7 +28,8 @@ export default {
     },
     methods: {
         fetchCategories() {
-            const apiUrl = 'http://nextcloud.local/index.php/apps/nextopn/api/firewall/categories/getCategories';
+            // 'http://nextcloud.local/index.php/apps/nextopn/api/firewall/categories/getCategories'
+            const apiUrl = OC.generateUrl('/apps/nextopn/api/firewall/categories/getCategories');
             axios.get(apiUrl)
                 .then(response => {
                     if (response.data && Array.isArray(response.data)) {
@@ -44,20 +44,19 @@ export default {
                 // Handle HTTP error
                 });
         },
-        deletecategory() {
-            const apiUrl = 'http://nextcloud.local/index.php/apps/nextopn/api/firewall/categories/delCategories/';
-            const uuid = '8c49a56a-e62f-4c4e-b211-04776ba98e03';
-            axios.post(apiUrl+uuid,{})
-            .then(response => {
+        deletecategory(uuid) {
+            const apiUrl = OC.generateUrl(`/apps/nextopn/api/firewall/categories/delItem/${uuid}`);
+            axios.post(apiUrl)
+                .then(response => {
                 if(response.data.success) {
                     this.message = response.data.message;
                 } else {
                     this.message = 'Error: ' + response.data.message;
                 }
-            })
-            .catch(error => {
-                this.message = 'Error: ' + (error.response && error.response.data.message || error.message);
-            });
+                })
+                .catch(error => {
+                    this.message = 'Error: ' + (error.response && error.response.data.message || error.message);
+                });
         },
         
     }

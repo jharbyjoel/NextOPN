@@ -23,14 +23,11 @@ return [
         ['name' => 'firmware#getAlias', 'url' => '/api/firewall/alias/getAlias', 'verb' => 'GET'],
         ['name' => 'firmware#addAlias', 'url' => '/api/firewall/alias/addItem', 'verb' => 'POST'],
         ['name' => 'firmware#addCategories', 'url' => '/api/firewall/categories/addItem', 'verb' => 'POST'],
+        ['name' => 'firmware#getCategories', 'url' => '/api/firewall/categories/getCategories', 'verb' => 'GET'],
+        ['name' => 'firmware#delCategories', 'url' => '/api/firewall/categories/delItem/{uuid}', 'verb' => 'POST'],
         ['name' => 'firmware#addGroup', 'url' => '/api/firewall/group/addGroup', 'verb' => 'POST'],
         ['name' => 'firmware#delGroup', 'url' => '/api/firewall/group/deleteGroup/', 'verb' => 'POST'],
         ['name' => 'menutree#getStatus', 'url' => '/api/menutree', 'verb' => 'GET'],
-        ['name' => 'menutree#getStatus', 'url' => '/api/menutree', 'verb' => 'GET'],
-        ['name' => 'menusearch#getStatus', 'url' => '/api/menusearch', 'verb' => 'GET'],
-    ],
-];
-<?php
         ['name' => 'menutree#getStatus', 'url' => '/api/menutree', 'verb' => 'GET'],
         ['name' => 'menusearch#getStatus', 'url' => '/api/menusearch', 'verb' => 'GET'],
     ],
