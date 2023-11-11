@@ -371,30 +371,6 @@ class FirmwareController extends Controller {
             ], 500);
         }
     }
-     private function makeApiCall($url) {
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        // Disable SSL Verification (for debugging purposes)
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-    
-        // Set authentication headers for Basic Authentication
-        $headers = [
-            'Authorization: Basic ' . base64_encode($this->apiKey . ':' . $this->apiSecret)
-        ];
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    
-        $response = curl_exec($ch);
-        
-        if(curl_errno($ch)) {
-            throw new \Exception('Request error: ' . curl_error($ch));
-        }
-        
-        curl_close($ch);
-        
-        return json_decode($response, true);
-    }
 
     private function makePostApiCall($url, $data) {
         $ch = curl_init($url);
