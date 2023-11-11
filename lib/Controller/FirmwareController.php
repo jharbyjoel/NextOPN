@@ -64,6 +64,15 @@ class FirmwareController extends Controller {
                 ], 500); //HTTP status code 500 for internal server error
             }
      }
+     
+          /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @param array $aliasData The data for the new alias from the client side.
+     * @return DataResponse
+     */
+
+     // Post Group API Endpoint
 
      /**
      * @NoAdminRequired
@@ -73,10 +82,10 @@ class FirmwareController extends Controller {
      */
 
      // Post Alias API endpoint
-     //@author: Jharby
-    public function addAlias() {
+     public function addAlias() {
         // Get the JSON POST data
-          // decode to associative array
+        $json = file_get_contents('php://input');
+        $aliasData = json_decode($json, true); // decode to associative array
     
         // Now use $aliasData to construct your payload
         $payload = [
@@ -140,9 +149,64 @@ class FirmwareController extends Controller {
                 'message' => $e->getMessage()
             ], 500);
         }
+     }
 
-    }
     /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     */
+
+     public function addGroup() {
+        $json = file_get_contents('php://input');
+        $groupData = json_decode($json, true);
+
+        $payload = [
+            'group' => [
+                'ifname' => $groupData['group']['ifname'],
+                'members' => $groupData['group']['members'],
+                'nogroup' => $groupData['group']['nogroup'],
+                'sequence' => $groupData['group']['sequence'],
+                'descr' => $groupData['group']['descr'],
+            ]
+            ];
+            $url = 'https://34.145.217.103/api/firewall/group/addItem/';
+
+            try {
+                $responseData = $this->makePostApiCall($url, $payload);
+
+                if(isset($responseData['result'])) {
+                    if($responseData['result'] === 'failed') {
+
+                        $errorMessage = isset($responseData['validations']) ?
+                        "Group not added. " . implode(' ', $responseData['validations']) :
+                        "Alias not added due to unknown error.";
+
+                        return new DataResponse([
+                            'success' => false,
+                            'message' => $errorMessage
+                        ]);
+                    } elseif ($responseData['result'] === 'saved') {
+
+                        return new DataResponse([
+                            'success' => true,
+                            'message' => 'Group added successfully.'
+                        ]);
+                    } else {
+                        return new DataResponse([
+                            'success' => 'false',
+                            'message' => 'Unexpected error result, no success or failed recieved from API endpoint'
+                        ]);
+                    }
+                }
+            } catch (\Exception $e) {
+                return new DataResponse([
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ], 500);
+            }
+     }
+
+         /**
      * @NoAdminRequired
      * @NoCSRFRequired
      * @param array $categoryData The data for the new category from the client side.
@@ -243,35 +307,29 @@ class FirmwareController extends Controller {
         $jsonData = json_encode($data);
 
             // Set the cURL options for a POST request
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        // Set the content type to application/json for JSON body
-        $headers = [
-            'Authorization: Basic ' . base64_encode($this->apiKey . ':' . $this->apiSecret),
-            'Content-Type: application/json; charset=UTF-8',
-        ];
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    // Set the content type to application/json for JSON body
+    $headers = [
+        'Authorization: Basic ' . base64_encode($this->apiKey . ':' . $this->apiSecret),
+        'Content-Type: application/json; charset=UTF-8',
+    ];
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-        // Disable SSL Verification (for debugging purposes)
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+    // Disable SSL Verification (for debugging purposes)
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 
-        $response = curl_exec($ch);
+    $response = curl_exec($ch);
 
-        if(curl_errno($ch)) {
-            throw new \Exception('Request error: ' . curl_error($ch));
-        }
-
-        curl_close($ch);
-
-        return json_decode($response, true);
+    if(curl_errno($ch)) {
+        throw new \Exception('Request error: ' . curl_error($ch));
     }
 
+    curl_close($ch);
 
-
-
-    
-
+    return json_decode($response, true);
+    }
 }

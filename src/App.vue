@@ -3,8 +3,10 @@
         <AppNavigation>
         </AppNavigation>
         <AppContent>
-			
-        
+		<Categories/>
+		<AddGroup/>
+		<Firmware/> 
+		<DeleteGroup/>
         </AppContent>
     </div>
 </template>
@@ -17,14 +19,18 @@ import '@nextcloud/dialogs/styles/toast.scss'
 import axios from '@nextcloud/axios'
 import Firmware from './components/Firmware.vue'
 import Categories from './components/Categories.vue'
-import LandingPage from './components/LandingPage.vue'
 import getAlias from './components/getAlias.vue'
+import AddGroup from './components/AddGroup.vue'
+import DeleteGroup from './components/DeleteGroup.vue'
 
 export default {
 	name: 'App',
 	components: {
+		Categories,
+		AddGroup,
 		Firmware,
-		getStatus,
+		DeleteGroup,
+	
 	},
 	data() {
 		return {
