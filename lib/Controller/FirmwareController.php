@@ -324,10 +324,10 @@ class FirmwareController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      */
-    public function deleteCategories() {
-        $url = 'https://34.145.217.103/api/firewall/category/delItem/';
+    public function delCategories($uuid) {
+        $url = 'https://34.145.217.103/api/firewall/category/delItem/'. $uuid;
         try {
-            $responseData = $this->makePostApiCall($url,{});
+            $responseData = $this->makePostApiCall($url,[]);
             // Check the 'result' field directly for 'success' or 'failed' status
             if(isset($responseData['result'])) {
                 if ($responseData['result'] === 'failed') {
@@ -402,29 +402,29 @@ class FirmwareController extends Controller {
         $jsonData = json_encode($data);
 
             // Set the cURL options for a POST request
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-    // Set the content type to application/json for JSON body
-    $headers = [
-        'Authorization: Basic ' . base64_encode($this->apiKey . ':' . $this->apiSecret),
-        'Content-Type: application/json; charset=UTF-8',
-    ];
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        // Set the content type to application/json for JSON body
+        $headers = [
+            'Authorization: Basic ' . base64_encode($this->apiKey . ':' . $this->apiSecret),
+            'Content-Type: application/json; charset=UTF-8',
+        ];
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-    // Disable SSL Verification (for debugging purposes)
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        // Disable SSL Verification (for debugging purposes)
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 
-    $response = curl_exec($ch);
+        $response = curl_exec($ch);
 
-    if(curl_errno($ch)) {
-        throw new \Exception('Request error: ' . curl_error($ch));
-    }
+        if(curl_errno($ch)) {
+            throw new \Exception('Request error: ' . curl_error($ch));
+        }
 
-    curl_close($ch);
+        curl_close($ch);
 
-    return json_decode($response, true);
-    }
+        return json_decode($response, true);
+        }
 }
