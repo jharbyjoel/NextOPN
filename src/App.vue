@@ -39,21 +39,5 @@ export default {
 </script>
 
 <style scoped>
-#content {
-  display: flex;
-  flex-direction: column;
-  height: 100vh; /* Adjust if necessary to fit your layout */
-}
 
-#content > * {
-  overflow: auto;
-  padding: 20px;
-  flex-shrink: 0; /* Prevent the children from shrinking */
-}
-
-/* Specifically for the AppContent, if it's the scrollable area */
-.app-content {
-  flex-grow: 1; /* Allow AppContent to fill the space and be scrollable */
-  overflow: auto; /* Add scroll to the AppContent */
-}
 </style>
