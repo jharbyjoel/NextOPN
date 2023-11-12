@@ -25,6 +25,7 @@
     "@nextcloud/router": "^2.0.0",
     "@nextcloud/vue": "^5.4.0",
     "axios": "^1.6.0",
+    "font-awesome": "^4.7.0",
     "vue": "^2.7.0"
   },
   "browserslist": [
