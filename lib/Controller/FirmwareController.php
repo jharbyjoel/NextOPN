@@ -333,37 +333,21 @@ class FirmwareController extends Controller {
             if(isset($responseData['result'])) {
                 if ($responseData['result'] === 'deleted') {
 
-                    $errorMessage = isset($responseData['validations']) ? 
-                    "Category not added. " . implode(' ', $responseData['validations']) :
-                    "Category not added due to an unknown error.";
+                    $sucessMessage = 'Deleted successfully';
 
-
-                    // The operation failed
-                    return new DataResponse([
-                        'success' => false,
-                        'message' => $errorMessage
-                    ]);
-                    
-                } elseif ($responseData['result'] === 'success') {
-                    // The operation was successful
                     return new DataResponse([
                         'success' => true,
-                        'message' => 'Category added successfully.'
+                        'message' => $sucessMessage
                     ]);
-                } else {
-                    // If result is neither 'failed' nor 'success', handle as error
-                    return new DataResponse([
-                        'success' => false,
-                        'message' => 'Unexpected result status.'
-                    ]);
-                }
+                    
             } else {
                 // If no 'result' field is present, handle as error
                 return new DataResponse([
                     'success' => false,
-                    'message' => isset($responseData['status_msg']) ? $responseData['status_msg'] : 'Unknown error occurred.'
+                    'message' => isset($responseData['result']) ? $responseData['result'] : 'Nothing was deleted.'
                 ]);
             }
+        }
         } catch (\Exception $e) {
             // Handle Exceptions thrown during the API call
             return new DataResponse([
