@@ -1,6 +1,6 @@
 <template>
     <div id="content" class="app-nextopn">
-        <a class="active" href="#categories">Categories</a>
+        <a @click="setActiveTab('categories')" :class="{ active: activeTab === 'categories' }" href="#">Categories</a>
         <a href="#firmware"><i class="fa fa-fw fa-search"></i>Firmware</a>
         <a href="#aliases">Aliases</a>
         <a href="#group">Group</a>
@@ -36,11 +36,14 @@ export default {
 	data() {
 		return {
 			loading: true,
+      activeTab: 'categories',
 		}
 	},
 	    // You might have other methods or mounted functions related to your firewall
 	methods: {
-		// If there are methods related to the firewall, retain them
+    setActiveTab(tabName) {
+      this.active = tabName;
+    }
 	},
 }
 </script>
