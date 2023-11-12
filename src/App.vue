@@ -21,17 +21,11 @@ import getAlias from './components/getAlias.vue'
 import AddGroup from './components/AddGroup.vue'
 import DeleteGroup from './components/DeleteGroup.vue'
 import getCategories from './components/getCategories.vue'
-import 'font-awesome/css/font-awesome.min.css';
 
 export default {
 	name: 'App',
 	components: {
 		getCategories,
-    Firmware,
-    Categories,
-    getAlias,
-    AddGroup,
-    DeleteGroup
 	},
 	data() {
 		return {
