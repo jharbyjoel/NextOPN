@@ -9,7 +9,7 @@
                 Color: <input v-model="categoryData.color" type="text" placeholder="Hex-color">
                 Auto <input v-model="categoryData.auto" type="checkbox" id="autoCheckBox">
                 <label for="autoCheckbox">Auto Enabled</label>
-                <button type="submit">Add Category</button>
+                <button type="submit" id="category-added">Add Category</button>
             </form>
         </div>
         <div id="Info Panel">
@@ -68,6 +68,7 @@ export default {
             .then(response => {
                 if(response.data.success) {
                     this.message = response.data.message;
+                    this.fetchCategories();
                 } else {
                     this.message = 'Error: ' + response.data.message;
                 }
@@ -98,6 +99,8 @@ export default {
                 .then(response => {
                 if(response.data.success) {
                     this.message = response.data.message;
+                    this.fetchCategories();
+                    
                 } else {
                     this.message = 'Error: ' + response.data.message;
                 }

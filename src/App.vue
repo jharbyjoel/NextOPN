@@ -6,7 +6,15 @@
         <a href="#group">Group</a>
         <a href="#system">System</a>
         <a href="#user">User</a>
+        <div id="panel1">
+          <AppNavigation>
+          <Categories/>
+         </AppNavigation>
+        </div>
+        
     </div>
+    
+
 </template>
 
 
@@ -20,12 +28,12 @@ import Categories from './components/Categories.vue'
 import getAlias from './components/getAlias.vue'
 import AddGroup from './components/AddGroup.vue'
 import DeleteGroup from './components/DeleteGroup.vue'
-import getCategories from './components/getCategories.vue'
+
 
 export default {
 	name: 'App',
 	components: {
-		getCategories,
+		Categories,
 	},
 	data() {
 		return {

@@ -270,7 +270,7 @@ class FirmwareController extends Controller {
                         'message' => $errorMessage
                     ]);
                     
-                } elseif ($responseData['result'] === 'success') {
+                } elseif ($responseData['result'] === 'saved') {
                     // The operation was successful
                     return new DataResponse([
                         'success' => true,
@@ -311,11 +311,11 @@ class FirmwareController extends Controller {
             if (isset($responseData['status']) && $responseData['status'] !== 'ok') {
                 $errorDetails = isset($responseData['status_msg']);
             } else {
-                $errorDetails = 'Failed to retrieve aliases';
+                $errorDetails = 'Failed to retrieve category';
             }
             // This handles a case where 'rows' does not appear and gives error message to the user 
             return new DataResponse([
-                'error' => 'Failed to retrieve aliases',
+                'error' => 'Failed to retrieve category',
                 'details' => $responseData
             ], 500); //HTTP status code 500 for internal server error
         }
