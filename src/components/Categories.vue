@@ -7,7 +7,7 @@
             <h2>Add Category:</h2>
             <form @submit.prevent="addCategories">
                 Category Name:&nbsp&nbsp<input v-model="categoryData.name" type="text" placeholder="Category name" id="cat-name"><br>
-                Choose a color:&nbsp&nbsp<input v-model="categoryData.color" type="color" id="cat-color" value="#fafafa"><br>
+                Choose a color:&nbsp&nbsp<input v-model="categoryData.color" type="color" id="cat-color" value="fafafa"><br>
                 Auto:&nbsp&nbsp<input v-model="categoryData.auto" type="checkbox" id="autoCheckBox"><br>
                 <button type="submit" id="category-added">Add Category</button>
             </form>
@@ -54,11 +54,11 @@ export default {
         this.fetchCategories();
     },
     watch: {
-        'categoryData.color'(value) {
-            // Send only the last 6 digits of the color value without the #
-            const last6Digits = value.substr(-6);
-            this.categoryData.color = last6Digits;
-        },
+        color(value) {
+            if (value.toString().match(/#[a-zA-Z0-9]{8}/)) {
+                this.color = value.substr(0, 7);
+            }
+        }
     },
     methods: {
         addCategories() {
@@ -66,7 +66,7 @@ export default {
             const payload = {
                 category: {
                     auto: this.categoryData.auto? 1 : 0,
-                    color: this.categoryData.color.trim(),
+                    color: this.categoryData.color.trim().replace(/^#/, ''),
                     name: this.categoryData.name.trim(),
                 },
             };
