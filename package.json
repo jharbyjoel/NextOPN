@@ -24,8 +24,10 @@
     "@nextcloud/dialogs": "^3.1.4",
     "@nextcloud/router": "^2.0.0",
     "@nextcloud/vue": "^5.4.0",
+    "@syncfusion/ej2-vue-inputs": "^23.1.43",
     "axios": "^1.6.0",
     "font-awesome": "^4.7.0",
+    "string-to-color": "^2.2.2",
     "vue": "^2.7.0"
   },
   "browserslist": [

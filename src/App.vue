@@ -2,12 +2,8 @@
     <div id="content" class="app-nextopn">
       <AppNavigation
       ></AppNavigation>
-      <AppContent>
+      <AppContent id="navigation">
         <Categories/>
-        <Alias/>
-        <getAlias/>
-        <AddGroup/>
-        <DeleteGroup/>
       </AppContent>
 
       <component :is="currentComponent"></component>
@@ -64,6 +60,9 @@ export default {
 
 <style>
 
-
+#navigation {
+  overflow: auto;
+  width: 100%;
+}
 
 </style>
