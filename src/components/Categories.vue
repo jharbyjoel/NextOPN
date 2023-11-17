@@ -14,7 +14,35 @@
         </div>
         <div id="Info-Panel" class="div-child">
             <h2>Firewall Categories:</h2>
-            <ul v-if="categories.length > 0" id="item-list">
+            <div id="table-container" class="d-flex justify-content-center align-items-center">
+                <btable v-if="categories.length > 0" id="table-content">
+                    <thead>
+                        <tr>
+                            <th @click="sortBy('name')">Name</th>
+                            <th @click="sortBy('auto')">Auto</th>
+                            <th @click="sortBy('color')">Color</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for = "category in sortedCategories" :key="category.uuid">
+                            <td>{{ category.name }}</td>
+                            <td>
+                                <div v-if="category.auto === '1' " class="circle green"></div>
+                                <div v-else-if="category.auto === '0'" class="circle red"></div>
+                            </td>
+                            <td>
+                                <div :style="{ backgroundColor: '#'+category.color }" class="color-box"></div>
+                            </td>
+                            <td>
+                                <button @click="deletecategory(category.uuid)" id="delete-cat">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </btable>
+                <p v-else>No categories found.</p>
+            </div>
+            <!-- <ul v-if="categories.length > 0" id="item-list">
                 <li v-for = "category in categories" :key="category.uuid" id="elements-list">
                     <strong>Name: </strong>{{ category.name }} <br>
                     <strong>Auto: </strong>
@@ -27,9 +55,9 @@
                 </li>
                 
             </ul>
-            <p v-else>No categories found.</p>
+            <p v-else>No categories found.</p> -->
         </div>
-        <div v-if="message" class="message">{{ message }}</div>
+        <Popup ref="Popup" :message="message"  />
     </div>
     
 </template>
@@ -37,8 +65,12 @@
 <script>
 import axios from '@nextcloud/axios';
 import { generateUrl } from '@nextcloud/router';
+import Popup from './Popup.vue'
 
 export default {
+    components: {
+      Popup, // Register the Popup component
+    },
     data() {
         return {
             categoryData: {
@@ -47,18 +79,34 @@ export default {
                 name: "",
             },
             message: "",
+            updateKey: 0,
             categories: [],
+            sortKey: 'name', // Property to store the current sorting key
+            sortDirection: 1, // 1 for ascending, -1 for descending
         };
     },
     created() {
         this.fetchCategories();
+    },
+    computed: {
+      sortedCategories() {
+        return this.categories.slice().sort((a, b) => {
+          const modifier = this.sortDirection === 1 ? 1 : -1;
+          return modifier * a[this.sortKey].localeCompare(b[this.sortKey]);
+        });
+      },
     },
     watch: {
         color(value) {
             if (value.toString().match(/#[a-zA-Z0-9]{8}/)) {
                 this.color = value.substr(0, 7);
             }
+        },
+        updateKey: function(newMessage) {
+        if (newMessage) {
+          this.$refs.Popup.openPopup(); // Trigger the popup
         }
+      },
     },
     methods: {
         addCategories() {
@@ -80,6 +128,7 @@ export default {
             .then(response => {
                 if(response.data.success) {
                     this.message = response.data.message;
+                    this.updateKey++;
                     this.fetchCategories();
                 } else {
                     this.message = 'Error: ' + response.data.message;
@@ -111,6 +160,7 @@ export default {
                 .then(response => {
                 if(response.data.success) {
                     this.message = response.data.message;
+                    this.updateKey++;
                     this.fetchCategories();
                     
                 } else {
@@ -121,27 +171,28 @@ export default {
                     this.message = 'Error: ' + (error.response && error.response.data.message || error.message);
                 });
         },
-    }
+        sortBy(key) {
+            if (this.sortKey === key) {
+            this.sortDirection = this.sortDirection * -1;
+            } else {
+            this.sortKey = key;
+            this.sortDirection = 1;
+            }
+        },
+        updateSortedCategories() {
+        // Update sortedAliases whenever aliases changes
+        this.categories = [...this.categories]; // Trigger Vue reactivity
+        },
+    },
 }
 </script>
 
-<style>
-.logo {
-    width : 100px;
-}
-.message {
-    color: black;
-}
+<style scoped>
 h1 {
     font-size: 40px;
     text-align: center;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
-}
-.header {
-    width: 100%;
-    height: 60px;
-    text-align: center;
 }
 #autoCheckBox {
     height: 25px;
@@ -174,11 +225,6 @@ h2 {
     display: inline-table;
     
 }
-#delete-cat {
-    font-size: 1.1em;
-    float: right;
-    margin-top: -3em;
-}
 #elements-list {
     font-size: 20px;
     display: block;
@@ -205,6 +251,26 @@ h2 {
     width: 25px;
     height: 25px;
 }
+th {
+    backdrop-filter: blur(10px);
+    position: sticky;
+    width: 10%;
+    cursor: pointer;
+}
+#Info-Panel {
+    border: 2px solid;
+    border-color: black;
+    padding: 0.5em;
+    border-radius: 2em;
+}
+#table-container {
+    margin: 2%;
+    height: 500px;
+    overflow: auto;
+}
+.table-content {
+    margin: 4%;
+  }
 /* elem {
     width: 100%;
     width: -moz-available;           WebKit-based browsers will ignore this.

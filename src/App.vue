@@ -3,7 +3,7 @@
       <AppNavigation
       ></AppNavigation>
       <AppContent id="navigation">
-        <Alias/>
+        <Categories/>
       </AppContent>
 
       <component :is="currentComponent"></component>

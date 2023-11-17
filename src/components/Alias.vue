@@ -265,9 +265,6 @@
   </script>
   
   <style scoped>
-  .message {
-    color: red;
-  }
   .circle {
     width: 20px;
     height: 20px;
