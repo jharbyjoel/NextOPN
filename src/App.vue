@@ -3,7 +3,7 @@
       <AppNavigation
       ></AppNavigation>
       <AppContent id="navigation">
-        <Categories/>
+        <Alias/>
       </AppContent>
 
       <component :is="currentComponent"></component>
@@ -20,7 +20,6 @@ import '@nextcloud/dialogs/styles/toast.scss'
 import axios from '@nextcloud/axios'
 import Alias from './components/Alias.vue'
 import Categories from './components/Categories.vue'
-import getAlias from './components/getAlias.vue'
 import AddGroup from './components/AddGroup.vue'
 import DeleteGroup from './components/DeleteGroup.vue'
 
@@ -29,7 +28,6 @@ export default {
 	components: {
     Categories,
     Alias,
-    getAlias,
     AddGroup,
     DeleteGroup,
 

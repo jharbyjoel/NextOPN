@@ -66,7 +66,7 @@ class FirmwareController extends Controller {
      }
 
      
-          /**
+    /**
      * @NoAdminRequired
      * @NoCSRFRequired
      * @param array $aliasData The data for the new alias from the client side.
@@ -74,7 +74,37 @@ class FirmwareController extends Controller {
      */
 
      // Post Group API Endpoint
+     public function delAlias($uuid) {
+        $url = 'https://34.145.217.103/api/firewall/alias/delItem/'. $uuid;
+        try {
+            $responseData = $this->makePostApiCall($url,[]);
+            // Check the 'result' field directly for 'success' or 'failed' status
+            if(isset($responseData['result'])) {
+                if ($responseData['result'] === 'deleted') {
 
+                    $sucessMessage = 'Deleted successfully';
+
+                    return new DataResponse([
+                        'success' => true,
+                        'message' => $sucessMessage
+                    ]);
+                    
+            } else {
+                // If no 'result' field is present, handle as error
+                return new DataResponse([
+                    'success' => false,
+                    'message' => isset($responseData['result']) ? $responseData['result'] : 'Nothing was deleted.'
+                ]);
+            }
+        }
+        } catch (\Exception $e) {
+            // Handle Exceptions thrown during the API call
+            return new DataResponse([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+     }
      /**
      * @NoAdminRequired
      * @NoCSRFRequired
@@ -123,7 +153,7 @@ class FirmwareController extends Controller {
                         'message' => $errorMessage
                     ]);
                     
-                } elseif ($responseData['result'] === 'success') {
+                } elseif ($responseData['result'] === 'saved') {
                     // The operation was successful
                     return new DataResponse([
                         'success' => true,
@@ -151,12 +181,95 @@ class FirmwareController extends Controller {
             ], 500);
         }
      }
-
+     /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     */
+    public function getlistCategories() {
+        $responseData = $this->makeApiCall('https://34.145.217.103/api/firewall/alias/listCategories');
+            // if status message is ok and there is a rows set
+            if (isset($responseData['rows'])) {
+                return new DataResponse($responseData['rows']);
+            } else {
+                // check to see if the row is not set and print the error message that follwos
+                if (isset($responseData['status']) && $responseData['status'] !== 'ok') {
+                    $errorDetails = isset($responseData['status_msg']);
+                } else {
+                    $errorDetails = 'Failed to retrieve category-aliases';
+                }
+                // This handles a case where 'rows' does not appear and gives error message to the user 
+                return new DataResponse([
+                    'error' => 'Failed to retrieve category-aliases',
+                    'details' => $responseData
+                ], 500); //HTTP status code 500 for internal server error
+            }
+    }
     /**
      * @NoAdminRequired
      * @NoCSRFRequired
      */
+    public function getAliasItem($uuid = null) {
+        try {
+            $url = 'https://34.145.217.103/api/firewall/alias/getItem/';
+            $responseData = $this->makeApiCall($url);
+            
+            if (is_array($responseData) && isset($responseData['alias'])) {
+                return new DataResponse($responseData['alias']);
+            } else {
+                $errorDetails = 'Invalid or unexpected API response: ' . json_encode($responseData);
+    
+                return new DataResponse([
+                    'error' => 'Failed to retrieve alias-item',
+                    'details' => $errorDetails
+                ], 500);
+            }
+        } catch (Exception $e) {
+            // Handle exceptions, log or return an error response
+            return new DataResponse([
+                'error' => 'Exception occurred',
+                'details' => $e->getMessage()
+            ], 500);
+        }
+    }
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     */
+    public function toogleItem($uuid) {
+        $url = 'https://34.145.217.103/api/firewall/alias/toggleItem/'. $uuid;
+        try {
+            $responseData = $this->makePostApiCall($url,[]);
+            // Check the 'result' field directly for 'success' or 'failed' status
+            if(isset($responseData['result'])) {
+                if ($responseData['result'] === 'Disabled'|| 'Enabled') {
 
+                    $sucessMessage = 'Toogled successfully';
+
+                    return new DataResponse([
+                        'success' => true,
+                        'message' => $sucessMessage
+                    ]);
+                    
+            } else {
+                // If no 'result' field is present, handle as error
+                return new DataResponse([
+                    'success' => false,
+                    'message' => isset($responseData['result']) ? $responseData['result'] : 'Nothing was deleted.'
+                ]);
+            }
+        }
+        } catch (\Exception $e) {
+            // Handle Exceptions thrown during the API call
+            return new DataResponse([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     */
      public function addGroup() {
         $json = file_get_contents('php://input');
         $groupData = json_decode($json, true);
@@ -206,13 +319,10 @@ class FirmwareController extends Controller {
                 ], 500);
             }
      }
-
      /**
      * @NoAdminRequired
      * @NoCSRFRequired
      */
-
-
      public function delGroup($uid){
         $json = file_get_contents('php://input');
         $delGroupData = json_decode($json, true);
@@ -235,8 +345,6 @@ class FirmwareController extends Controller {
      * @param array $categoryData The data for the new category from the client side.
      * @return DataResponse
      */
-     // Post Categories API endpoint
-     // @author: Diego Munoz
     public function addCategories() {
 
         $json = file_get_contents('php://input');
