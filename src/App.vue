@@ -1,18 +1,13 @@
 <template>
-    <div id="content" class="app-nextopn">
-      <AppNavigation
-      ></AppNavigation>
-      <AppContent>
-        <Categories/>
-        <Alias/>
-        <getAlias/>
-        <AddGroup/>
-        <DeleteGroup/>
-      </AppContent>
+    <div id="app-container" class="app-nextopn">
+        <Navbar/>
 
-      <component :is="currentComponent"></component>
+        <div id="content">
+            <router-view></router-view>
+        </div>
     </div>
 </template>
+
 
 
 <script>
@@ -25,6 +20,8 @@ import Categories from './components/Categories.vue'
 import getAlias from './components/getAlias.vue'
 import AddGroup from './components/AddGroup.vue'
 import DeleteGroup from './components/DeleteGroup.vue'
+import Navbar from './components/Navbar.vue'
+
 
 export default {
 	name: 'App',
@@ -34,29 +31,20 @@ export default {
     getAlias,
     AddGroup,
     DeleteGroup,
+    Navbar,
+
 
 	},
 	data() {
 		return {
-			loading: true,
-      activeTab: '',
+
 		}
 	},
 	    // You might have other methods or mounted functions related to your firewall
 	methods: {
-    setActiveTab(tabName) {
-      this.active = tabName;
-    },
-	},
-  computed: {
-    currentComponent() {
-      switch (this.activeTab) {
-        case 'categories': return Categories;
 
-        default: return null;
-      }
-    }
-  }
+}
+
 }
 </script>
 

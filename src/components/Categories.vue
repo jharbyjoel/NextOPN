@@ -1,7 +1,5 @@
 <template>
     <div id="main-panel">
-        <img src="./img/opn-png.png" alt="logo" class="logo">
-        <h1 id="header">Categories</h1>
         <div id="Add-panel">
         <h2>Add Category</h2>
             <form @submit.prevent="addCategories">
@@ -111,9 +109,13 @@ export default {
 </script>
 
 <style>
-.logo {
-    width : 100px;
+#main-panel {
+    width: 100%; 
+    margin: 0 auto; 
+    padding: 20px; 
+    
 }
+
 .message {
     color: black;
 }
