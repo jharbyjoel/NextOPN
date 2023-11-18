@@ -298,6 +298,8 @@
   th {
     width: 10%;
     cursor: pointer;
+    backdrop-filter: blur(10px);
+    position: sticky;
   }
   #item-panel {
     border: 2px solid;
