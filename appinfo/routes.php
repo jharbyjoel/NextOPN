@@ -20,16 +20,21 @@ return [
         ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
         ['name' => 'note_api#preflighted_cors', 'url' => '/api/0.1/{path}', 'verb' => 'OPTIONS', 'requirements' => ['path' => '.+']],
         ['name' => 'firmware#getStatus', 'url' => '/api/firmware/status', 'verb' => 'GET'],
+        //Alias Component routes
         ['name' => 'firmware#getAlias', 'url' => '/api/firewall/alias/getAlias', 'verb' => 'GET'],
         ['name' => 'firmware#addAlias', 'url' => '/api/firewall/alias/addItem', 'verb' => 'POST'],
         ['name' => 'firmware#delAlias', 'url' => '/api/firewall/alias/delItem/{uuid}', 'verb' => 'POST'],
         ['name' => 'firmware#getlistCategories', 'url' => '/api/firewall/alias/getAliasCategory', 'verb' => 'GET'],
         ['name' => 'firmware#getAliasItem', 'url' => '/api/firewall/alias/getAliasItem', 'verb' => 'GET'],
         ['name' => 'firmware#toogleItem', 'url' => '/api/firewall/alias/toogleItem/{uuid}', 'verb' => 'POST'],
+        //Category Component routes
         ['name' => 'firmware#addCategories', 'url' => '/api/firewall/categories/addItem', 'verb' => 'POST'],
         ['name' => 'firmware#getCategories', 'url' => '/api/firewall/categories/getCategories', 'verb' => 'GET'],
         ['name' => 'firmware#delCategories', 'url' => '/api/firewall/categories/delItem/{uuid}', 'verb' => 'POST'],
+        // Group Component routes
+        ['name' => 'firmware#getGroups', 'url' => '/api/firewall/group/getGroups', 'verb' => 'GET'],
         ['name' => 'firmware#addGroup', 'url' => '/api/firewall/group/addGroup', 'verb' => 'POST'],
-        ['name' => 'firmware#delGroup', 'url' => '/api/firewall/group/deleteGroup/', 'verb' => 'POST'],
+        ['name' => 'firmware#delGroup', 'url' => '/api/firewall/group/delGroup/{uuid}', 'verb' => 'POST'],
+        ['name' => 'firmware#getGroupItem', 'url' => '/api/firewall/group/getGroupItem', 'verb' => 'GET'],
     ],
 ];
