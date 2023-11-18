@@ -30,16 +30,11 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "font-awesome": "^4.7.0",
-<<<<<<< HEAD
     "nodejs": "^0.0.0",
     "os": "^0.1.2",
     "os-utils": "^0.0.14",
     "vue": "^2.7.0",
     "vue-chartjs": "^5.2.0"
-=======
-    "string-to-color": "^2.2.2",
-    "vue": "^2.7.0"
->>>>>>> 92c610adf3338f1ab3a2427311572964172e1420
   },
   "browserslist": [
     "extends @nextcloud/browserslist-config"

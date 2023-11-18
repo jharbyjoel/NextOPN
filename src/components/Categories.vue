@@ -1,15 +1,7 @@
 <template>
-    
     <div id="main-panel">
-<<<<<<< HEAD
         <div id="Add-panel">
         <h2>Add Category</h2>
-=======
-        <header><h1 id="title"><strong>Categories</strong></h1></header>
-        <!-- <img src="./img/opn-png.png" alt="logo" class="logo"> -->
-        <div id="Add-panel" class="div-child">
-            <h2>Add Category:</h2>
->>>>>>> 92c610adf3338f1ab3a2427311572964172e1420
             <form @submit.prevent="addCategories">
                 Category Name:&nbsp&nbsp<input v-model="categoryData.name" type="text" placeholder="Category name" id="cat-name"><br>
                 Choose a color:&nbsp&nbsp<input v-model="categoryData.color" type="color" id="cat-color" value="fafafa"><br>
@@ -179,18 +171,6 @@ export default {
 }
 </script>
 
-<<<<<<< HEAD
-<style>
-#main-panel {
-    width: 100%; 
-    margin: 0 auto; 
-    padding: 20px; 
-    
-}
-
-.message {
-    color: black;
-=======
 <style scoped>
 h1 {
     font-size: 40px;
@@ -202,7 +182,6 @@ h1 {
     height: 25px;
     width: 25px;
     background-color: #eee;
->>>>>>> 92c610adf3338f1ab3a2427311572964172e1420
 }
 #main-panel {
     margin: 1rem;
