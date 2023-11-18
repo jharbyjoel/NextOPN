@@ -1,16 +1,24 @@
 <template>
+<<<<<<< HEAD
+    <div id="app-container" class="app-nextopn">
+        <Navbar/>
+=======
     <div id="content" class="app-nextopn">
       <AppNavigation
       ></AppNavigation>
       <AppContent id="navigation">
         <Groups/>
       </AppContent>
+>>>>>>> 92c610adf3338f1ab3a2427311572964172e1420
 
-      <component :is="currentComponent"></component>
+        <div id="content">
+            <router-view></router-view>
+        </div>
     </div>
     
 
 </template>
+
 
 
 <script>
@@ -20,36 +28,32 @@ import '@nextcloud/dialogs/styles/toast.scss'
 import axios from '@nextcloud/axios'
 import Alias from './components/Alias.vue'
 import Categories from './components/Categories.vue'
-import Groups from './components/Groups.vue'
+import AddGroup from './components/AddGroup.vue'
+import DeleteGroup from './components/DeleteGroup.vue'
+import Navbar from './components/Navbar.vue'
+
 
 export default {
 	name: 'App',
 	components: {
     Categories,
     Alias,
-    Groups,
+    AddGroup,
+    DeleteGroup,
+    Navbar,
+
+
 	},
 	data() {
 		return {
-			loading: true,
-      activeTab: '',
+
 		}
 	},
 	    // You might have other methods or mounted functions related to your firewall
 	methods: {
-    setActiveTab(tabName) {
-      this.active = tabName;
-    },
-	},
-  computed: {
-    currentComponent() {
-      switch (this.activeTab) {
-        case 'categories': return Categories;
 
-        default: return null;
-      }
-    }
-  }
+}
+
 }
 </script>
 

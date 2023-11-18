@@ -24,21 +24,38 @@ class FirmwareController extends Controller {
      * @NoCSRFRequired
      */
 
-     // Get status Api Endpoint
      public function getStatus() {
         $responseData = $this->makeApiCall('https://34.145.217.103/api/core/firmware/status');
-        if ($responseData['status'] === 'ok') {
+        if ($responseData['status'] === '200 OK') {
             return new DataResponse([
-                'upgradeAvailable' => true,
                 'downloadSize' => $responseData['download_size'],
-                'numberOfPackages' => $responseData['updates'],
-                'rebootRequired' => $responseData['upgrade_needs_reboot'] === '0' ? false : true
+                'rebootRequired' => $responseData['needs_reboot'] === '1',
+                'statusMessage' => $responseData['status_msg'],
             ]);
         } else if (isset($responseData['status_msg'])) {
-            return new DataResponse(['errorMessage' => $responseData['status_msg']]);   
+            return new DataResponse(['statusMessage' => $responseData['status_msg']]);   
         }
         return new Dataresponse(['error' => 'Error making OPNsense API call'], 500);
      }
+
+     /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     */
+
+     public function getInfo() {
+        $responseData = $this->makeApiCall('https://34.145.217.103/api/core/firmware/info');
+            if (isset($responseData['product_id']) && isset($responseData['product_version'])) {
+                return new DataResponse([
+                    'productID' => $responseData['product_id'],
+                    'productVersion' => $responseData['product_version'],
+                ]);
+        } else {
+            return new DataResponse([
+                'error' => 'Failed to get information'
+            ],500);
+     }
+    }
 
     /**
      * @NoAdminRequired
@@ -497,41 +514,7 @@ class FirmwareController extends Controller {
         }
         
     }
-    /**
-     * @NoAdminRequired
-     * @NoCSRFRequired
-     */
-    public function delCategories($uuid) {
-        $url = 'https://34.145.217.103/api/firewall/category/delItem/'. $uuid;
-        try {
-            $responseData = $this->makePostApiCall($url,[]);
-            // Check the 'result' field directly for 'success' or 'failed' status
-            if(isset($responseData['result'])) {
-                if ($responseData['result'] === 'deleted') {
 
-                    $sucessMessage = 'Deleted successfully';
-
-                    return new DataResponse([
-                        'success' => true,
-                        'message' => $sucessMessage
-                    ]);
-                    
-            } else {
-                // If no 'result' field is present, handle as error
-                return new DataResponse([
-                    'success' => false,
-                    'message' => isset($responseData['result']) ? $responseData['result'] : 'Nothing was deleted.'
-                ]);
-            }
-        }
-        } catch (\Exception $e) {
-            // Handle Exceptions thrown during the API call
-            return new DataResponse([
-                'success' => false,
-                'message' => $e->getMessage()
-            ], 500);
-        }
-    }
 
     private function makeApiCall($url) {
         $ch = curl_init($url);

@@ -20,6 +20,7 @@ return [
         ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
         ['name' => 'note_api#preflighted_cors', 'url' => '/api/0.1/{path}', 'verb' => 'OPTIONS', 'requirements' => ['path' => '.+']],
         ['name' => 'firmware#getStatus', 'url' => '/api/firmware/status', 'verb' => 'GET'],
+        ['name' => 'firmware#getInfo', 'url' => '/api/firmware/info', 'verb' => 'GET'],
         //Alias Component routes
         ['name' => 'firmware#getAlias', 'url' => '/api/firewall/alias/getAlias', 'verb' => 'GET'],
         ['name' => 'firmware#addAlias', 'url' => '/api/firewall/alias/addItem', 'verb' => 'POST'],
