@@ -1,11 +1,22 @@
 <template>
+<<<<<<< HEAD
     <div id="app-container" class="app-nextopn">
         <Navbar/>
+=======
+    <div id="content" class="app-nextopn">
+      <AppNavigation
+      ></AppNavigation>
+      <AppContent id="navigation">
+        <Categories/>
+      </AppContent>
+>>>>>>> 92c610adf3338f1ab3a2427311572964172e1420
 
         <div id="content">
             <router-view></router-view>
         </div>
     </div>
+    
+
 </template>
 
 
@@ -17,7 +28,6 @@ import '@nextcloud/dialogs/styles/toast.scss'
 import axios from '@nextcloud/axios'
 import Alias from './components/Alias.vue'
 import Categories from './components/Categories.vue'
-import getAlias from './components/getAlias.vue'
 import AddGroup from './components/AddGroup.vue'
 import DeleteGroup from './components/DeleteGroup.vue'
 import Navbar from './components/Navbar.vue'
@@ -28,7 +38,6 @@ export default {
 	components: {
     Categories,
     Alias,
-    getAlias,
     AddGroup,
     DeleteGroup,
     Navbar,
@@ -50,6 +59,9 @@ export default {
 
 <style>
 
-
+#navigation {
+  overflow: auto;
+  width: 100%;
+}
 
 </style>
