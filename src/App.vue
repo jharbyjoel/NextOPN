@@ -1,22 +1,11 @@
 <template>
-<<<<<<< HEAD
-    <div id="app-container" class="app-nextopn">
-        <Navbar/>
-=======
-    <div id="content" class="app-nextopn">
-      <AppNavigation
-      ></AppNavigation>
-      <AppContent id="navigation">
-        <Categories/>
-      </AppContent>
->>>>>>> 92c610adf3338f1ab3a2427311572964172e1420
+  <div id="app-container" class="app-nextopn">
+      <Navbar/>
 
-        <div id="content">
-            <router-view></router-view>
-        </div>
-    </div>
-    
-
+      <div id="content">
+          <router-view></router-view>
+      </div>
+  </div>
 </template>
 
 
