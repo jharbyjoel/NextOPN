@@ -38,7 +38,6 @@
           <btable v-if="aliases.length > 0" id="table-content">
           <thead>
             <tr>
-              <!-- <th>Enabled</th> function to enable and disbled aliases -->
               <th @click="sortBy('name')">Name</th>
               <th @click="sortBy('description')">Description</th>
               <th @click="sortBy('type')">Type</th>
@@ -52,13 +51,19 @@
               <td>{{ alias.name }}</td>
               <td>{{ alias.description }}</td>
               <td>{{ alias.type }}</td>
-              <td @click="toggleAliasEnabled(alias.uuid)" :class="{ 'circle': true, 'green': alias.enabled === '1', 'red': alias.enabled === '0' }"
-              ></td>
+              <td @click="handleClick(alias.uuid,alias.type)" :class="{ 'circle': true, 'green': alias.enabled === '1', 'red': alias.enabled === '0' }">
+              <img v-if="alias.type === 'External (advanced)' || alias.type === 'Internal (automatic)'" src="./img/restricted.png" alt="Image" id="imagedisabled">
+              </td>
 
               <td>{{ alias.last_updated }}</td>
               <td>
-                <button @click="deleteAlias(alias.uuid)" v-if="alias.type === 'Host(s)'">Delete</button>
-                <span v-else>Non deletable</span>
+                <button @click="deleteAlias(alias.uuid)" v-if="alias.type === 'Host(s)' || alias.type === 'Network(s)'" style="display: flex; align-items: center;">
+                    <span>Delete</span>
+                    <img src="./img/bin.png" alt="Delete Icon" id="deleteButton">
+                </button>
+                <button @click="handleClick(alias.uuid,alias.type)" v-else>
+                  <img src="./img/restricted.png" alt="Image2" id="imagedisabled2">
+                </button>
               </td>
             </tr>
           </tbody>
@@ -260,6 +265,15 @@
                     this.message = 'Error: ' + (error.response && error.response.data.message || error.message);
                 });
       },
+      handleClick(uuid,aliastype) {
+          // Check the condition before calling toggleAliasEnabled
+          if (aliastype === 'External (advanced)' || aliastype === 'Internal (automatic)') {
+              this.message = 'Resctricted';
+              this.updateKey++;
+          } else {
+            this.toggleAliasEnabled(uuid);
+          }
+      },
     },
   }
   </script>
@@ -284,6 +298,8 @@
   th {
     width: 10%;
     cursor: pointer;
+    backdrop-filter: blur(10px);
+    position: sticky;
   }
   #item-panel {
     border: 2px solid;
@@ -296,9 +312,43 @@
     height: 500px;
     overflow: auto;
   }
-  .table-content {
-    margin: 4%;
+  h2 {
+    position: relative;
+    text-align: center;
   }
+  form {
+    font-size: 15px;
+    position: relative;
+    text-align: center;
+  }
+  #imagedisabled {
+    /* @author:<a href="https://www.flaticon.com/free-icons/error" title="error icons">Error icons created by juicy_fish - Flaticon</a> */
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+  .image-container {
+  position: relative;
+  display: inline-block;
+}
 
+.floating-text {
+  position: absolute;
+  margin-left: 4em;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.3s ease-in-out; /* Add a smooth transition effect */
+}
+
+.image-container:hover .floating-text {
+  opacity: 1; /* Show the text on hover */
+}
+#deleteButton {
+  margin-left: 5px;
+  width: 20px; 
+  height: 20px;
+}
   </style>
   

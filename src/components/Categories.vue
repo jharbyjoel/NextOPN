@@ -1,9 +1,7 @@
 <template>
-    
     <div id="main-panel">
-        <header><h1 id="title"><strong>Categories</strong></h1></header>
-        <div id="Add-panel" class="div-child">
-            <h2>Add Category:</h2>
+        <div id="Add-panel">
+        <h2>Add Category</h2>
             <form @submit.prevent="addCategories">
                 Category Name:&nbsp&nbsp<input v-model="categoryData.name" type="text" placeholder="Category name" id="cat-name"><br>
                 Choose a color:&nbsp&nbsp<input v-model="categoryData.color" type="color" id="cat-color" value="fafafa"><br>
@@ -41,21 +39,8 @@
                 </btable>
                 <p v-else>No categories found.</p>
             </div>
-            <!-- <ul v-if="categories.length > 0" id="item-list">
-                <li v-for = "category in categories" :key="category.uuid" id="elements-list">
-                    <strong>Name: </strong>{{ category.name }} <br>
-                    <strong>Auto: </strong>
-                    <div v-if="category.auto === '1' " class="circle green"></div>
-                    <div v-else-if="category.auto === '0'" class="circle red"></div>
-                    <br>
-                    <strong>Color: </strong>
-                    <div :style="{ backgroundColor: '#'+category.color }" class="color-box"></div>
-                    <button @click="deletecategory(category.uuid)" id="delete-cat">Delete</button>
-                </li>
-                
-            </ul>
-            <p v-else>No categories found.</p> -->
         </div>
+        <!-- Displaying messages -->
         <Popup ref="Popup" :message="message"  />
     </div>
     
@@ -203,7 +188,7 @@ h1 {
     padding: 2rem 2rem;
     width: 100%;
 }
-form {
+#form {
     font-size: 15px;
     position: relative;
     text-align: center;

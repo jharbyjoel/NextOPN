@@ -17,8 +17,7 @@ import '@nextcloud/dialogs/styles/toast.scss'
 import axios from '@nextcloud/axios'
 import Alias from './components/Alias.vue'
 import Categories from './components/Categories.vue'
-import AddGroup from './components/AddGroup.vue'
-import DeleteGroup from './components/DeleteGroup.vue'
+import Groups from './components/Groups.vue'
 import Navbar from './components/Navbar.vue'
 
 
@@ -27,8 +26,7 @@ export default {
 	components: {
     Categories,
     Alias,
-    AddGroup,
-    DeleteGroup,
+    Groups,
     Navbar,
 
 
