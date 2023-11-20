@@ -13,6 +13,7 @@ import { generateFilePath } from '@nextcloud/router'
 import Categories from './components/Categories'; 
 import Firmware from './components/Firmware';
 import Alias from './components/Alias';
+import Groups from  './components/Groups'
 __webpack_public_path__ = generateFilePath(appName, '', 'js/')
 
 Vue.mixin({ methods: { t, n } })
@@ -36,7 +37,12 @@ const router = new Router({
     path: '/aliases',
     name: 'Alias',
     component: Alias,
-    }
+    },
+    {
+      path: '/groups',
+      name: 'Group',
+      component: Groups,
+      },
   ]
 });
 
